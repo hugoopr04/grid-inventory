@@ -1,0 +1,15 @@
+# UI build dependencies - regenerate with: cd web && npm install
+web/node_modules/
+
+# OS and editor junk
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
+.claude/
+
+# logs and temporary files
+*.log
+*.tmp
+*.bak

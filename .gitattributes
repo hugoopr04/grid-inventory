@@ -1,0 +1,10 @@
+# Normalise line endings: source is stored as LF in the repository
+* text=auto eol=lf
+
+# Binary assets must never be converted
+*.png binary
+*.webp binary
+*.mp3 binary
+*.ttf binary
+*.woff binary
+*.woff2 binary

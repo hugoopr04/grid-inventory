@@ -1,0 +1,975 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+$mainColor: #171717;
+$textColor: #c8c8c8;
+$mainFont: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, sans-serif;
+
+$secondaryColor: rgba(255, 255, 255, 0.04);
+$secondaryColorHighlight: rgba(255, 255, 255, 0.06);
+$secondaryColorLight: rgba(255, 255, 255, 0.05);
+$secondaryColorDark: rgba(255, 255, 255, 0.09);
+
+// Tarkov grid cell sizing
+$cellSize: 5vh;
+$cellGap: 1px;
+
+body {
+  margin: 0;
+  font-family: $mainFont;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  background: none !important;
+  overflow: hidden !important;
+  user-select: none;
+}
+
+#root {
+  height: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.app-wrapper {
+  height: 100%;
+  width: 100%;
+  color: #fff;
+}
+
+.context-menu-list {
+  min-width: 200px;
+  background-color: #171717;
+  color: #c8c8c8;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.context-menu-item {
+  padding: 9px 10px;
+  border-radius: 3px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: #c8c8c8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  &:active {
+    transform: none;
+  }
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: #fff;
+  }
+}
+
+.tooltip-description {
+  padding-top: 6px;
+}
+
+.tooltip-markdown > p {
+  margin: 0;
+}
+
+button:active {
+  transform: translateY(2px);
+}
+
+.item-drag-preview {
+  z-index: 100;
+  position: fixed;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: -webkit-optimize-contrast;
+  opacity: 0.85;
+  border-radius: 4px;
+}
+
+.inventory-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  gap: 16px;
+  position: fixed;
+  bottom: 60px;
+  right: 1.5vh;
+  height: auto;
+  width: auto;
+}
+
+.inventory-player-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: fit-content;
+}
+
+.inventory-control {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #161616;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+
+  .inventory-control-wrapper {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 9px 14px !important;
+    width: 100%;
+
+    .weight-bar {
+      flex: 1;
+      height: 6px !important;
+      border-radius: 3px !important;
+      margin: 0 !important;
+      border: none !important;
+      background: rgba(255, 255, 255, 0.08) !important;
+      min-width: 30px;
+      align-self: center;
+
+      > div {
+        background-color: #3498db !important;
+        transition: width 0.3s ease !important;
+      }
+    }
+  }
+
+  .inventory-control-input {
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    padding: 6px 8px !important;
+    width: 52px !important;
+    border-radius: 3px;
+    font-family: Roboto;
+    font-size: 11px !important;
+    font-weight: 400;
+    text-align: center;
+    outline: none;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.04);
+    letter-spacing: 0.02em;
+
+    &:focus-within {
+      background-color: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+  }
+
+  .inventory-control-button {
+    font-size: 10px !important;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.05);
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+    padding: 7px 13px !important;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    text-transform: uppercase;
+    font-family: Roboto;
+    width: auto !important;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+  }
+}
+
+.useful-controls-dialog {
+  background-color: #171717;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #c8c8c8;
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 16px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+}
+
+.useful-controls-dialog-overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.useful-controls-dialog-title {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
+.useful-controls-dialog-close {
+  width: 25px;
+  height: 25px;
+  padding: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  fill: #888;
+  transition: background-color 0.15s ease;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+    fill: #c8c8c8;
+  }
+}
+
+.useful-controls-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+.useful-controls-button {
+  flex-shrink: 0;
+  margin-right: auto;
+  transition: background-color 0.15s ease, border-color 0.15s ease !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  fill: #c8c8c8;
+  border-radius: 3px !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.09) !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    fill: #fff;
+    cursor: pointer;
+  }
+}
+
+.useful-controls-exit-button {
+  position: absolute !important;
+  right: 8px;
+  top: 8px;
+  border-radius: 3px !important;
+  color: #666 !important;
+}
+
+.inventory-grid-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background-color: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  overflow: hidden;
+  width: fit-content;
+  box-sizing: border-box;
+
+  // Layout for various inventory types
+  &.inventory-type-player {
+    border-radius: 0 0 4px 4px !important;
+    border-top: none !important;
+
+    .inventory-grid-header-wrapper,
+    .weight-bar {
+      display: none;
+    }
+  }
+
+  &.inventory-type-drop,
+  &.inventory-type-newdrop {
+    .inventory-grid-header-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      justify-content: flex-start;
+
+      .weight-bar {
+        flex: 1;
+        height: 6px !important;
+        border-radius: 3px !important;
+        margin: 0 !important;
+        border: none !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        min-width: 30px;
+        align-self: center;
+
+        > div {
+          background-color: #3498db !important;
+          transition: width 0.3s ease !important;
+        }
+      }
+    }
+  }
+}
+
+.inventory-grid-header-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background-color: #161616;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+  p {
+    font-size: 13px;
+    font-weight: 500;
+    color: #c8c8c8;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+}
+
+// ========================
+// TARKOV GRID SYSTEM
+// ========================
+
+.tarkov-grid-container {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols, 7), $cellSize);
+  grid-template-rows: repeat(var(--grid-rows, 8), $cellSize);
+  gap: $cellGap;
+  background-color: rgba(255, 255, 255, 0.04);
+  padding: 1px;
+  overflow-y: auto;
+  position: relative;
+  width: fit-content;
+  // Grow with the configured row count instead of a fixed height, so the
+  // container stays flush with the grid whatever the dimensions are.
+  height: fit-content;
+  max-height: 70vh;
+}
+
+.tarkov-grid-cell {
+  background-color: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.tarkov-grid-item {
+  position: relative;
+  z-index: 2;
+  background-color: #111111;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  image-rendering: -webkit-optimize-contrast;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  cursor: grab;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
+
+  &:hover {
+    background-color: #1a1a1a;
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
+    z-index: 3;
+
+    .inventory-slot-label-box {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.tarkov-item-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
+.tarkov-item-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.tarkov-item-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 2px 4px;
+  gap: 3px;
+  p {
+    font-size: 11px;
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
+}
+
+.tarkov-item-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+// Hover preview overlay (green = valid, red = invalid)
+.tarkov-grid-preview {
+  z-index: 5;
+  border-radius: 2px;
+  pointer-events: none;
+  transition: background-color 0.1s ease;
+}
+
+.preview-valid {
+  background-color: rgba(46, 204, 113, 0.25);
+  border: 1px solid rgba(46, 204, 113, 0.5);
+}
+
+.preview-invalid {
+  background-color: rgba(231, 76, 60, 0.25);
+  border: 1px solid rgba(231, 76, 60, 0.5);
+}
+
+// ========================
+// SHARED SLOT COMPONENTS
+// ========================
+
+.inventory-slot-label-box {
+  background-color: rgba(0, 0, 0, 1);
+  color: #ccc;
+  text-align: center;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  padding: 1px 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.inventory-slot-label-text {
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 2px 4px;
+  font-weight: 500;
+  font-family: $mainFont;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: #ccc;
+}
+
+.inventory-slot-number {
+  background-color: transparent;
+  color: #fff;
+  height: 11px;
+  border-top-left-radius: 1px;
+  border-bottom-right-radius: 2px;
+  padding: 2px 4px;
+  font-size: 11px;
+  font-family: $mainFont;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.item-slot-currency-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 3px;
+  p {
+    font-size: 13px;
+    font-weight: 500;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    color: #fff;
+  }
+}
+
+.item-slot-price-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: 3px;
+  p {
+    font-size: 13px;
+    font-weight: 400;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    color: #aaa;
+  }
+}
+
+// ========================
+// TOOLTIP
+// ========================
+
+.tooltip-wrapper {
+  pointer-events: none;
+  display: flex;
+  background-color: #161616;
+  width: 200px;
+  padding: 10px;
+  flex-direction: column;
+  min-width: 200px;
+  color: #c8c8c8;
+  font-family: Roboto;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  z-index: 50;
+  p {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+}
+
+.tooltip-header-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+  p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: 0.01em;
+  }
+}
+
+.tooltip-crafting-duration {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  svg {
+    padding-right: 3px;
+    opacity: 0.7;
+  }
+  p {
+    font-size: 13px;
+    color: #aaa;
+  }
+}
+
+.tooltip-ingredients {
+  padding-top: 8px;
+}
+
+.tooltip-ingredient {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  img {
+    width: 26px;
+    height: 26px;
+    padding-right: 6px;
+    opacity: 0.9;
+  }
+}
+
+// ========================
+// HOTBAR
+// ========================
+
+.hotbar-container {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  justify-content: center;
+  width: 100%;
+  position: absolute;
+  top: 2vh;
+}
+
+.hotbar-item-slot {
+  width: 10.2vh;
+  height: 10.2vh;
+  background-color: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  background-repeat: no-repeat;
+  background-position: center;
+  image-rendering: -webkit-optimize-contrast;
+  position: relative;
+  background-size: 5.5vh;
+  color: #c8c8c8;
+}
+
+.item-slot-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  p {
+    font-size: 11px;
+  }
+}
+
+.item-slot-header-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.item-hotslot-header-wrapper {
+  @extend .item-slot-header-wrapper;
+  justify-content: space-between !important;
+}
+
+.item-slot-info-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+  padding: 3px;
+  gap: 2px;
+  p {
+    font-size: 11px;
+    color: #888;
+  }
+}
+
+.hotbar-slot-header-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+// ========================
+// BARS (weight/durability/space)
+// ========================
+
+.durability-bar {
+  background: rgba(0, 0, 0, 0.6);
+  height: 2px;
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.weight-bar {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  height: 1.2vh;
+  border-radius: 0;
+  overflow: hidden;
+  margin: 0;
+}
+
+// ========================
+// ITEM NOTIFICATIONS
+// ========================
+
+.item-notification-container {
+  display: flex;
+  overflow-x: scroll;
+  flex-wrap: nowrap;
+  gap: 2px;
+  position: absolute;
+  bottom: 20vh;
+  left: 50%;
+  width: 100%;
+  margin-left: calc(50% - 5.1vh);
+  transform: translate(-50%);
+}
+
+.item-notification-action-box {
+  width: 100%;
+  color: #c8c8c8;
+  background-color: #161616;
+  text-transform: uppercase;
+  text-align: center;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  font-family: Roboto;
+  p {
+    font-size: 10px;
+    padding: 2px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+}
+
+.item-notification-item-box {
+  height: 10.2vh;
+  width: 10.2vh;
+  background-color: #111111;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 3px;
+  image-rendering: -webkit-optimize-contrast;
+  position: relative;
+  background-size: 5.5vh;
+  color: #c8c8c8;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+// ========================
+// TRANSITIONS
+// ========================
+
+.transition-fade-enter {
+  opacity: 0;
+}
+
+.transition-fade-enter-active {
+  opacity: 1;
+  transition: opacity 200ms ease;
+}
+
+.transition-fade-exit {
+  opacity: 1;
+}
+
+.transition-fade-exit-active {
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.transition-slide-up-enter {
+  transform: translateY(200px);
+  opacity: 0;
+}
+
+.transition-slide-up-enter-active {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+.transition-slide-up-exit {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.transition-slide-up-exit-active {
+  transform: translateY(200px);
+  opacity: 0;
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+/* ─── Search overlay (Tarkov-style item reveal) ─── */
+.search-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  border-radius: 3px;
+  overflow: hidden;
+  backdrop-filter: blur(8px) saturate(0.3);
+  -webkit-backdrop-filter: blur(8px) saturate(0.3);
+  background: rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  transition: opacity 0.3s ease, background 0.15s ease;
+  &:hover {
+    background: rgba(0, 0, 0, 0.35);
+    .search-icon {
+      opacity: 0.8;
+    }
+  }
+}
+
+.search-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(52, 152, 219, 0.6);
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  opacity: 0.5;
+  color: #fff;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+// ========================
+// PLAYER INVENTORY HOTBAR
+// ========================
+
+.player-hotbar-container {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  padding: 6px;
+  margin-bottom: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hotbar-grid-cell {
+  position: relative;
+  flex: 1;
+  height: 5vh;
+  min-width: 0;
+  background-color: #111111;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  overflow: hidden;
+
+  &.cell-hover {
+    border-color: rgba(46, 204, 113, 0.5);
+    background-color: rgba(46, 204, 113, 0.08);
+  }
+
+  .hotbar-slot-key {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.35);
+    pointer-events: none;
+    z-index: 10;
+  }
+}
+
+.hotbar-item-preview {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  .hotbar-item-image {
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+// ========================
+// SEARCH MECHANIC
+// ========================
+
+.search-progress-container {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  right: 4px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 2px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.search-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #2980b9, #3498db, #1abc9c);
+  border-radius: 2px;
+  transition: width 0.03s linear;
+  box-shadow: 0 0 6px rgba(52, 152, 219, 0.6);
+}
+
+.item-unsearched-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+
+  span {
+    font-size: 1.6vh;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+    user-select: none;
+  }
+}

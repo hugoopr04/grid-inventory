@@ -1,0 +1,25 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+# NOTE: web/build IS committed in this repository. The resource refuses to
+# start without it ('UI has not been built'), and server owners cloning this
+# repo should not need Node installed just to run the inventory.
+# Rebuild it with: cd web && npm install && npm run build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+.pnpm-debug.log
