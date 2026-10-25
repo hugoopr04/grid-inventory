@@ -37,6 +37,16 @@ set `inventory:target 1`. It must start **before** ox_inventory.
 
 ---
 
+## Download
+
+**[Download the latest release](https://github.com/hugoopr04/grid-inventory/releases/latest)**
+
+The release archive already contains a folder named `ox_inventory`, so you can extract
+it straight into your resources folder with nothing to rename. Cloning the repository
+instead gives you a `grid-inventory` folder that you must rename yourself.
+
+---
+
 ## Installation
 
 ### 1. Drop the folder in
@@ -409,6 +419,16 @@ Instala esto **antes** de arrancar el inventario.
 
 **Opcional:** [ox_target](https://github.com/overextended/ox_target) — solo si pones
 `inventory:target 1`. Debe arrancar **antes** que ox_inventory.
+
+## Descarga
+
+**[Descargar la última versión](https://github.com/hugoopr04/grid-inventory/releases/latest)**
+
+El ZIP de la release ya contiene una carpeta llamada `ox_inventory`, así que lo extraes
+directamente en tu carpeta de recursos sin renombrar nada. Si clonas el repositorio en
+su lugar, obtienes una carpeta `grid-inventory` que tendrás que renombrar tú.
+
+---
 
 ## Instalación
 
